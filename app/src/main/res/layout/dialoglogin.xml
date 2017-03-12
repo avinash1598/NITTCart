@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:background="#ffffff">
+
+
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:paddingTop="10dp">
+
+
+        <RelativeLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:id="@+id/relativeLayout2"
+            android:visibility="gone">
+
+            <RelativeLayout android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:paddingTop="20dp"
+                android:id="@+id/inside_rl2"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp"
+                android:background="#ffffff"
+                >
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_height="1dp"
+                    android:id="@+id/view"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="41dp"></View>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="30dp"
+                    style="@style/AppTheme.dialog"
+                    android:background="#ffffff"
+                    android:layout_below="@+id/view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+                        <EditText android:id="@+id/input_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
+                            android:textColor="#737171"
+                            android:drawableLeft="@drawable/user"
+                            android:drawableTint="#FF4081"
+                            android:hint="Name" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/user"
+                            android:drawableTint="#FF4081"
+                            android:singleLine="true"
+                            android:textColorHint="#8b8888"
+                            android:hint="Roll No"
+                            android:inputType="number"
+                            android:id="@+id/reg_input_email"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/lock"
+                            android:drawableTint="#FF4081"
+                            android:hint="Password"
+                            android:textColorHint="#8b8888"
+                            android:inputType="textPassword"
+                            android:id="@+id/reg_input_password"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/lock"
+                            android:drawableTint="#FF4081"
+                            android:hint="Re-enter Password"
+                            android:textColorHint="#8b8888"
+                            android:inputType="textPassword"
+                            android:id="@+id/reenter_input_password"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/contactno"
+                            android:drawableTint="#FF4081"
+                            android:hint="Contact No."
+                            android:textColorHint="#8b8888"
+                            android:inputType="number"
+                            android:id="@+id/contactno"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/gmail"
+                            android:drawableTint="#FF4081"
+                            android:hint="Email ID"
+                            android:textColorHint="#8b8888"
+                            android:inputType="textEmailAddress"
+                            android:id="@+id/email_id"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/lock"
+                            android:drawableTint="#FF4081"
+                            android:hint="Room No"
+                            android:textColorHint="#8b8888"
+                            android:inputType="number"
+                            android:id="@+id/room_no"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/lock"
+                            android:drawableTint="#FF4081"
+                            android:hint="Hostel"
+                            android:textColorHint="#8b8888"
+                            android:inputType="text"
+                            android:id="@+id/hostel"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="22dp"
+                        android:background="#d67601"
+                        android:text="Register"
+                        android:textAllCaps="false"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:id="@+id/btn_register" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="5dp"
+                        android:text="Already a member? Login"
+                        android:id="@+id/link_login"
+                        android:textColor="#8b8888" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+
+            android:id="@+id/relativeLayout"
+            android:layout_below="@+id/relativeLayout2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="70dp"
+            android:background="#ffffff"
+            >
+
+            <RelativeLayout android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:id="@+id/inside_rl"
+                android:background="#ffffff"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                >
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_height="1dp"></View>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/user"
+                            android:drawableTint="#FF4081"
+                            android:singleLine="true"
+                            android:textColorHint="#8b8888"
+                            android:hint="Roll No"
+                            android:inputType="number"
+                            android:id="@+id/input_email"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:singleLine="true"
+                            android:drawableLeft="@drawable/lock"
+                            android:drawableTint="#FF4081"
+                            android:hint="Password"
+                            android:textColorHint="#8b8888"
+                            android:inputType="textPassword"
+                            android:id="@+id/input_password"
+                            android:textColor="#8b8888"
+                            android:textColorHighlight="#8b8888"
+                            android:elevation="0dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:paddingTop="5dp"
+                        android:text="Forgot Password?"
+                        android:textColor="#8b8888" />
+
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="22dp"
+                        android:background="#d67601"
+                        android:text="Sign in"
+                        android:textAllCaps="false"
+                        android:textColor="#fff"
+                        android:textSize="18sp"
+                        android:id="@+id/btn_login" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="5dp"
+                        android:text="No account yet? Create one"
+                        android:id="@+id/link_signup"
+                        android:textColor="#8b8888" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/user_profile_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/user_profile_image_background"
+            android:src="@drawable/adduser"
+            android:layout_centerHorizontal="true"
+            android:elevation="4dp" />
+
+    </RelativeLayout>
+
+</ScrollView>
