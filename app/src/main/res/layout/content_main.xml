@@ -5,7 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" tools:showIn="@layout/app_bar_main"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+   >
+
+    <Button
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:focusable="true" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -13,66 +24,100 @@
         android:id="@+id/fabLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:visibility="gone">
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fab:fab_addButtonColorNormal="@color/accent"
-        fab:fab_addButtonColorPressed="@color/accent_dark"
-        fab:fab_addButtonPlusIconColor="@color/white"
-        fab:fab_addButtonStrokeVisible="false"
-        fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_labelsPosition="left"
-        android:layout_marginBottom="224dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_event"
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/fab_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/accent"
-            fab:fab_colorPressed="@color/accent_dark"
-            fab:fab_plusIconColor="@color/white"
-            fab:fab_icon="@drawable/add_item"
-            fab:fab_size="normal"
-            fab:fab_title="Events"
-            android:rotation="90"/>
+            fab:fab_addButtonColorNormal="@color/accent"
+            fab:fab_addButtonColorPressed="@color/accent_dark"
+            fab:fab_addButtonPlusIconColor="@color/white"
+            fab:fab_addButtonStrokeVisible="false"
+            fab:fab_labelStyle="@style/menu_labels_style"
+            fab:fab_labelsPosition="left"
+            android:layout_marginBottom="224dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/accent"
-            fab:fab_colorPressed="@color/accent_dark"
-            fab:fab_plusIconColor="@color/white"
-            fab:fab_icon="@drawable/close_menu"
-            fab:fab_size="normal"
-            fab:fab_title="Photographs"
-            android:rotation="90"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_others"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/accent"
-            fab:fab_colorPressed="@color/accent_dark"
-            fab:fab_plusIconColor="@color/white"
-            fab:fab_icon="@drawable/ic_action_name"
-            fab:fab_size="normal"
-            fab:fab_title="Others"
-            android:rotation="90"/>
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/accent"
+                fab:fab_colorPressed="@color/accent_dark"
+                fab:fab_plusIconColor="@color/white"
+                fab:fab_icon="@drawable/add_item"
+                fab:fab_size="normal"
+                fab:fab_title="Events"
+                android:rotation="90"/>
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/accent"
+                fab:fab_colorPressed="@color/accent_dark"
+                fab:fab_plusIconColor="@color/white"
+                fab:fab_icon="@drawable/close_menu"
+                fab:fab_size="normal"
+                fab:fab_title="Photographs"
+                android:rotation="90"/>
 
-        <com.nhaarman.supertooltips.ToolTipRelativeLayout
-            android:id="@+id/activity_main_tooltipRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/accent"
+                fab:fab_colorPressed="@color/accent_dark"
+                fab:fab_plusIconColor="@color/white"
+                fab:fab_icon="@drawable/ic_action_name"
+                fab:fab_size="normal"
+                fab:fab_title="Others"
+                android:rotation="90"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </RelativeLayout>
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:windowSoftInputMode="stateHidden|adjustPan|adjustResize">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/myScrollingContent"
+            android:layout_width="match_parent"
+            android:background="#c6c6c6"
+            android:paddingTop="10dp"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <!-- Your loooooong scrolling content here. -->
+
+                  <android.support.v7.widget.RecyclerView
+                      android:id="@+id/recycler_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:scrollbars="vertical" />
+
+          </android.support.v4.widget.NestedScrollView>
+
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            app:bb_tabXmlResource="@xml/bottom_tabs"
+            app:bb_behavior="shy|shifting"
+            app:bb_inActiveTabColor="#6aa3be"
+            app:bb_activeTabColor="#447bae"
+            android:isScrollContainer="false" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>
+

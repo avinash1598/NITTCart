@@ -81,19 +81,21 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
     Button _signupButton;
     @Bind(R.id.link_login)
     TextView _loginLink;
+    @Bind(R.id.skiplogin)
+    TextView skiplogin;
 
 
 ////////////////////////////////////////
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    //@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_view2);
+        setContentView(R.layout.dialoglogin);
 
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialoglogin, null);
@@ -101,9 +103,11 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
         //alertDialog.setCancelable(false);
-        alertDialog.setCanceledOnTouchOutside(false);
+        //alertDialog.setCanceledOnTouchOutside(false);
+*/
+        //ButterKnife.bind(this, dialogView);
 
-        ButterKnife.bind(this, dialogView);
+        ButterKnife.bind(this);
 
             register = new SignupActivity();
         _signupButton.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +118,16 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
             }
         });
 
+        skiplogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                finish();
+            }
+        });
+
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,12 +135,12 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
                 //Intent intent = condnew Intent(getApplicationContext(), LoginActivity.class);
                 //startActivity(intent);
                 //finish();
-                flag=true;
+                flag = true;
                 registerview.startAnimation(animHide2);
                 registerview.setVisibility(View.GONE);
                 loginview.setVisibility(View.VISIBLE);
                 loginview.startAnimation(animShow2);
-                imageButton.setBackgroundResource(R.drawable.rounded_button);
+                //imageButton.setBackgroundResource(R.drawable.cart_and_plceorder_back);
                 imageButton.setImageResource(R.mipmap.adduser);
 
                 //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -137,11 +151,17 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
         ///////////////////////////////////////////
         pixelDensity = getResources().getDisplayMetrics().density;
 
-        imageButton = (ImageButton)((Dialog) alertDialog).findViewById(R.id.user_profile_photo);
+        /*imageButton = (ImageButton)((Dialog) alertDialog).findViewById(R.id.user_profile_photo);
         loginview = (RelativeLayout)((Dialog) alertDialog).findViewById(R.id.relativeLayout);
         registerview = (RelativeLayout) ((Dialog) alertDialog).findViewById(R.id.relativeLayout2);
         insidelv = (RelativeLayout)((Dialog) alertDialog).findViewById(R.id.inside_rl);
         Insiderv = (RelativeLayout)((Dialog) alertDialog).findViewById(R.id.inside_rl2);
+*/
+        imageButton = (ImageButton)findViewById(R.id.user_profile_photo);
+        loginview = (RelativeLayout)findViewById(R.id.relativeLayout);
+        registerview = (RelativeLayout)findViewById(R.id.relativeLayout2);
+        insidelv = (RelativeLayout)findViewById(R.id.inside_rl);
+        Insiderv = (RelativeLayout)findViewById(R.id.inside_rl2);
 
         alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.alpha_anim);
         alphaAnimation2= AnimationUtils.loadAnimation(this, R.anim.fadeout2);
@@ -216,7 +236,7 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
                 loginview.setVisibility(View.GONE);
                 registerview.setVisibility(View.VISIBLE);
                 registerview.startAnimation(animShow);
-                imageButton.setBackgroundResource(R.drawable.rounded_cancel_button);
+                //imageButton.setBackgroundResource(R.drawable.rounded_cancel_button);
                 imageButton.setImageResource(R.mipmap.cancel);
 
             }
@@ -275,6 +295,7 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
+        //super.onBackPressed();
     }
 
     public void onLoginSuccess() {
@@ -332,10 +353,10 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
             //loginview.startAnimation(alphaAnimation2);
 
             registerview.setVisibility(View.VISIBLE);
-            imageButton.setBackgroundResource(R.drawable.rounded_cancel_button);
+            imageButton.setBackgroundResource(R.drawable.user_profile_image_background);
             imageButton.setImageResource(R.mipmap.cancel);
 
-            Animator anim = ViewAnimationUtils.createCircularReveal(registerview,x/2 , y/2, 0, hypotenuse);
+            Animator anim = ViewAnimationUtils.createCircularReveal(registerview,x/2 , y/2+150, 0, hypotenuse);
 
             anim.setDuration(800);
 
@@ -371,10 +392,10 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
             x = loginview.getRight();
             y = loginview.getTop();
 
-            imageButton.setBackgroundResource(R.drawable.rounded_button);
+            imageButton.setBackgroundResource(R.drawable.user_profile_image_background);
             imageButton.setImageResource(R.mipmap.adduser);
 
-            Animator anim = ViewAnimationUtils.createCircularReveal(registerview, x/2, y/2, hypotenuse, 0);
+            Animator anim = ViewAnimationUtils.createCircularReveal(registerview, x/2, y/2+150, hypotenuse, 0);
             anim.setDuration(500);
 
             anim.addListener(new Animator.AnimatorListener() {

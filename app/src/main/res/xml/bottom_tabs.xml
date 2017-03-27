@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_filter"
+        icon="@drawable/ic_favorites"
+        title="Filter"
+        barColorWhenSelected="#ffffff"
+        />
+    <tab
+        id="@+id/tab_sort"
+        icon="@drawable/ic_friends"
+        title="Sort"
+        barColorWhenSelected="#ffffff"/>
+    <tab
+        id="@+id/tab_donate"
+        icon="@drawable/ic_restaurants"
+        title="donate"
+        barColorWhenSelected="#ffffff"/>
+</tabs>

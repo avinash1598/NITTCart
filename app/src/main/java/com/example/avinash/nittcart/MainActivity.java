@@ -1,14 +1,44 @@
 package com.example.avinash.nittcart;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentTransaction;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,68 +51,166 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsoluteLayout;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.nhaarman.supertooltips.ToolTipRelativeLayout;
+import com.ramotion.foldingcell.FoldingCell;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import br.com.mauker.materialsearchview.MaterialSearchView;
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
 import it.sephiroth.android.library.tooltip.Tooltip;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
-    public static ToolTipRelativeLayout toolTipRelativeLayout;
-    static boolean flag=false;
+    List<Item> movieList = new ArrayList<Item>();
+    static boolean flag = false;
     com.getbase.floatingactionbutton.FloatingActionButton floatingActionButton;
-    RelativeLayout frameLayout;
+    static RelativeLayout frameLayout;
     postadd p;
+    static InputMethodManager imm;
+    static int width;
+    static int height;
+    ArrayList<String> arr;
+    private MaterialSearchView searchView;
+    GridLayoutManager lLayout;
+    TabLayout tabHost;
+    private Resources res;
+    boolean oncreate = false;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        recyclerView =(RecyclerView)findViewById(R.id.recycler_view);
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.adjustTintAlpha(0.8f);
+        arr = new ArrayList<>();
+        res = this.getResources();
+        oncreate = true;
+        tabHost = (TabLayout) this.findViewById(R.id.tabHost);
 
-        setUpWindow();
-        if(!flag) {//flag = true;
-            setContentView(R.layout.activity_main);
-        }
-        else { flag= false;
-            setContentView(R.layout.postad);
+        tabHost.setSelectedTabIndicatorColor(Color.parseColor("#efefef"));
+        tabHost.setTabTextColors(Color.parseColor("#5b839c"), Color.parseColor("#3baf79"));
+        settab();
 
-        }
+        tabHost.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                TabReSelected(tab.getPosition());
+            }
 
-        toolTipRelativeLayout = (ToolTipRelativeLayout) findViewById(R.id.activity_main_tooltipRelativeLayout);
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
-        final WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        //setUpButton();
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                TabReSelected(tab.getPosition());
+            }
+        });
 
-        //ctgitem c =new ctgitem(MainActivity.this);
-        //itemcondition i = new itemcondition(MainActivity.this);
+        Log.d("create", "inside");
+        
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+                return false;
+            }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+        });
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+            searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Do something when the suggestion list is clicked.
+                    String suggestion = searchView.getSuggestionAtPosition(position);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-         frameLayout = (RelativeLayout) findViewById(R.id.fabLayout);
+                    searchView.setQuery(suggestion, false);
+                }
+            });
+
+
+            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            final WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            toolbar.setTitleTextColor(Color.GRAY);
+
+
+
+        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+            bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+                @Override
+                public void onTabSelected(@IdRes int tabId) {
+                    if (tabId == R.id.tab_donate) {
+                        // The tab with id R.id.tab_favorites was selected,
+                        // change your content accordingly.
+                    }
+                }
+            });
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
+
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setUpWindow();
+                }
+            }, 500);
+            //setUpWindow();
+   /*     findViewById(R.id.button).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(MainActivity.this, FoldingCellActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+
+      frameLayout = (RelativeLayout) findViewById(R.id.fabLayout);
         //frameLayout.getBackground().setAlpha(100);
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         fabMenu.setRotation(-90);
@@ -98,7 +226,8 @@ public class MainActivity extends AppCompatActivity
                         return true;
                     }
                 });
-                p = new postadd(windowManager,MainActivity.this,fabMenu);
+                p = new postadd(windowManager, MainActivity.this, fabMenu);
+                //floatingActionMenu.setFocusable(true);
             }
 
 
@@ -110,36 +239,102 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+*/
+
+      /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         //.setAction("Action", null).show();
                 //postadd p = new postadd(windowManager,MainActivity.this);
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-        //Intent intent = new Intent(this, LoginActivity.class);
-        //startActivity(intent);
-        //finish();
+       */
+        }
+
+
+
+    public void setUpWindow() {
+
+        lLayout = new GridLayoutManager(MainActivity.this, 2);
+        FoldingCellActivity  f= new FoldingCellActivity(recyclerView
+        ,new LinearLayoutManager(getApplicationContext()),MainActivity.this,lLayout);
     }
 
 
-
-   public void setUpWindow(){
-
-    }
     @Override
     public void onBackPressed() {
+        moveTaskToBack(true);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (searchView.isOpen()) searchView.closeSearch();
+
+        else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Log.d("start", "inside");
+        oncreate = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //searchView.clearSuggestions();
+    }
+
+    public void settab(){
+        {
+            Log.d("settab", "inside");
+
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setIcon(res.getDrawable(R.drawable.ic_home))
+                            .setText("Home")
+            );
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setIcon(res.getDrawable(R.drawable.ic_add_item))
+                            .setText("PostAdd")
+            );
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setIcon(res.getDrawable(R.drawable.ic_cart))
+                            .setText("Cart")
+            );
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setIcon(res.getDrawable(R.drawable.ic_notification))
+                            .setText("Notifiction")
+            );
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setIcon(res.getDrawable(R.drawable.ic_user))
+                            .setText("Dashboard")
+            );
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchView.activityResumed();
+        //String[] arr = getResources().getStringArray(R.array.suggestions);
+        //searchView.addSuggestions(arr);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,9 +354,33 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.item_search) {
+            searchView.setVisibility(View.VISIBLE);
+            searchView.openSearch();
+            return true;
+        }
 
-        return super.onOptionsItemSelected(item);
-    }
+        if (id == R.id.action_list_to_grid) {
+
+            if (!((Animatable) item.getIcon()).isRunning()) {
+                if (lLayout.getSpanCount() == 1) {
+                    item.setIcon(AnimatedVectorDrawableCompat.create(MainActivity.this, R.drawable.avd_list_to_grid));
+                    lLayout.setSpanCount(2);
+                } else {
+                    item.setIcon(AnimatedVectorDrawableCompat.create(MainActivity.this, R.drawable.avd_grid_to_list));
+                    lLayout.setSpanCount(1);
+                }
+                ((Animatable) item.getIcon()).start();
+                FoldingCellActivity.mAdapter.notifyItemRangeChanged(0, FoldingCellActivity.mAdapter.getItemCount());
+
+            }
+                return true;
+            }
+
+
+            return super.onOptionsItemSelected(item);
+        }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -186,6 +405,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void TabReSelected(int position) {
+        switch (position){
+            case 0:break;
+            case 1://pickimage();
+                        Intent postadd = new Intent(getApplicationContext(), postadd.class);
+                        startActivity(postadd);
+                        overridePendingTransition(R.anim.up_from_bottom, R.anim.activity_slide_up);
+                break;
+            case 2: Intent intent = new Intent(getApplicationContext(), Cart.class);
+                startActivity(intent);
+                //finish();
+                overridePendingTransition(R.anim.up_from_bottom, R.anim.activity_slide_up );
+                break;
+            case 3:break;
+            case 4:break;
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("state", oncreate);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedIntancestate){
+        super.onRestoreInstanceState(savedIntancestate);
+        oncreate = savedIntancestate.getBoolean("state");
+        Log.d("save","state");
     }
 
 }
