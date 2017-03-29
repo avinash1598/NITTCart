@@ -37,8 +37,14 @@ public class GridFoldingCellAdapter extends RecyclerView.Adapter<GridFoldingCell
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if(!ItemList.isEmpty()) {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.cell, parent, false);
+            if(MainActivity.layoutmode.matches("LIST_LAYOUT")) {
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.cell, parent, false);
+            }
+            else if(MainActivity.layoutmode.matches("GRID_LAYOUT")) {
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.grid_item_view, parent, false);
+            }
             ViewHolder holder = new ViewHolder(view);
             return new ViewHolder(view);
         }
@@ -47,7 +53,9 @@ public class GridFoldingCellAdapter extends RecyclerView.Adapter<GridFoldingCell
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.fc.fold(true);
+        if(!ItemList.isEmpty()) {
+            if(MainActivity.layoutmode.matches("LIST_LAYOUT")) {
+                viewHolder.fc.fold(true);
         if (!ItemList.isEmpty()) {
             //Log.d("price at pos", "" + ItemList.get(position).getPrice());
             viewHolder.price.setText(ItemList.get(position).getPrice());
@@ -58,6 +66,12 @@ public class GridFoldingCellAdapter extends RecyclerView.Adapter<GridFoldingCell
             viewHolder.requestsCount.setText(String.valueOf(ItemList.get(position).getRequestsCount()));
             viewHolder.pledgePrice.setText(ItemList.get(position).getPledgePrice());
         }
+            }
+            else if(MainActivity.layoutmode.matches("GRID_LAYOUT")) {
+
+            }
+        }
+//
         if(position >lastPosition) {
 
             //Animation animation = AnimationUtils.loadAnimation(mContext,
@@ -123,6 +137,7 @@ public class GridFoldingCellAdapter extends RecyclerView.Adapter<GridFoldingCell
         TextView titleTime;
         public ViewHolder(View itemView) {
             super(itemView);
+            if(MainActivity.layoutmode.matches("LIST_LAYOUT")) {
             price = (TextView) itemView.findViewById(R.id.title_price);
             time = (TextView) itemView.findViewById(R.id.title_time_label);
             date = (TextView) itemView.findViewById(R.id.title_date_label);
@@ -142,6 +157,10 @@ public class GridFoldingCellAdapter extends RecyclerView.Adapter<GridFoldingCell
                     fc.toggle(false);
                 }
             });
+            }
+            else if(MainActivity.layoutmode.matches("GRID_LAYOUT")){
+
+            }
         }
     }
 }

@@ -7,10 +7,9 @@
     android:fitsSystemWindows="true"
     android:background="#ffffff">
 
-
-
     <RelativeLayout
         android:orientation="vertical"
+        android:layout_gravity="center_vertical|center|center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarAlwaysDrawVerticalTrack="true">
@@ -25,7 +24,7 @@
             android:orientation="vertical"
             android:id="@+id/relativeLayout2"
             android:visibility="gone"
-           >
+            android:background="#ffffff">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -60,8 +59,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="3dp"
-                    android:showDividers="beginning"
-                    android:divider="@android:drawable/divider_horizontal_textfield">
+                    android:showDividers="beginning">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -244,7 +242,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:elevation="4dp"
             android:orientation="vertical"
             android:id="@+id/relativeLayout"
             android:layout_below="@+id/relativeLayout2"
@@ -255,43 +252,37 @@
             android:background="#ffffff"
             >
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="@drawable/bookshelf"
-                android:id="@+id/bookshelf"
-                android:elevation="4dp" />
-
             <RelativeLayout android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
                 android:id="@+id/inside_rl"
-                android:background="#ffffff"
-                android:layout_below="@+id/bookshelf"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                >
-               <android.support.v7.widget.CardView
+                android:layout_marginTop="60dp"
+                android:paddingBottom="0dp">
+
+                <ImageView
+                    android:id="@+id/title_from_to_dots_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/title_from_address"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/title_from_to_dots"
+                    android:src="@color/contentDividerLine" />
+
+                <android.support.v7.widget.CardView
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    card_view:cardCornerRadius="0dp"
                    android:elevation="4dp"
-                   android:layout_marginRight="20dp"
-                   android:layout_marginLeft="20dp"
-                   android:layout_marginBottom="40dp"
-                   android:layout_marginTop="10dp">
-
-                   <ImageView
-                       android:id="@+id/title_from_to_dots_divider"
-                       android:layout_width="match_parent"
-                       android:layout_height="1dp"
-                       android:layout_below="@id/title_from_address"
-                       android:layout_marginBottom="5dp"
-                       android:layout_marginTop="5dp"
-                       android:layout_toEndOf="@+id/title_from_to_dots"
-                       android:src="@color/contentDividerLine" />
+                   android:layout_marginRight="30dp"
+                   android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp">
 
                    <LinearLayout
+                       android:focusableInTouchMode="true"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -301,11 +292,22 @@
                        android:paddingLeft="15dp"
                     android:weightSum="1"
                     android:id="@+id/viewlogin"
-                       android:background="#cad7e4"
+                       android:background="#ffffff"
                        android:gravity="center"
-                       android:paddingRight="15dp">
+                       android:paddingRight="15dp"
+                       android:elevation="4dp">
 
-                    <android.support.design.widget.TextInputLayout
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="100dp"
+                           android:id="@+id/imageView4"
+                           android:layout_marginTop="10dp"
+                           android:src="@drawable/nittcart"
+                           android:layout_alignParentTop="true"
+                           android:layout_alignParentStart="true"
+                           android:layout_marginBottom="-20dp" />
+
+                       <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -314,7 +316,7 @@
                         <EditText
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/user"
+                            android:drawableLeft="@drawable/ic_username"
                             android:drawableTint="#FF4081"
                             android:singleLine="true"
                             android:textColorHint="#8b8888"
@@ -323,15 +325,14 @@
                             android:id="@+id/input_email"
                             android:textColor="#8b8888"
                             android:textColorHighlight="#8b8888"
-                             />
+                            />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:passwordToggleEnabled = "true"
                         android:layout_marginTop="10dp"
-                        app:passwordToggleTint="#8b8888"
+
                         >
 
                         <EditText
@@ -339,14 +340,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:singleLine="true"
-                            android:drawableLeft="@drawable/lock"
+
+                            android:drawableLeft="@drawable/ic_password"
                             android:drawableTint="#FF4081"
                             android:hint="Password"
                             android:textColorHint="#8b8888"
                             android:inputType="textPassword"
                             android:id="@+id/input_password"
                             android:elevation="0dp"
-                            />
+                             />
                     </android.support.design.widget.TextInputLayout>
 
                     <TextView
@@ -361,7 +363,7 @@
                     <Button
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#d67601"
+                        android:background="#f18518"
                         android:text="Sign in"
                         android:textAllCaps="false"
                         android:textColor="#fff"
@@ -390,17 +392,10 @@
                         android:textStyle="bold|italic"
                         android:id="@+id/skiplogin"
                         android:textColor="#5b5959"
-                        android:layout_marginTop="5dp" />
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp" />
 
-                    <ImageView
-                        android:layout_width="198dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageView2"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/logo_nittcart"
-                        android:layout_weight="1.52" />
-
-                </LinearLayout>
+                   </LinearLayout>
 
                </android.support.v7.widget.CardView>
             </RelativeLayout>
@@ -412,13 +407,16 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/user_profile_image_background"
-            android:src="@drawable/adduser"
+            android:src="@drawable/ic_newuser"
             android:elevation="4dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
-
     </RelativeLayout>
 
+
 </ScrollView>
+
+<!--app:passwordToggleEnabled = "true"
+                        app:passwordToggleTint="#8b8888"-->

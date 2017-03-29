@@ -52,6 +52,9 @@ public class FoldingCellActivity extends MainActivity {
             recyclerView.setAdapter(gadapter);
             recyclerView.setNestedScrollingEnabled(false);
 
+            movieList.add(new Item("$23", "$116", "W 36th St, NY, 10015", "W 114th St, NY, 10037", 10, "TODAY", "11:10 AM"));
+            mAdapter.notifyDataSetChanged();
+
             //list
        /* Animation animation = AnimationUtils.loadAnimation(mContext,
                       R.anim.up_from_bottom);

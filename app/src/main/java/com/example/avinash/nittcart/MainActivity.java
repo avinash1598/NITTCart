@@ -9,6 +9,7 @@ import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
@@ -16,8 +17,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +32,7 @@ import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -39,6 +44,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,22 +58,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsoluteLayout;
+import android.widget.ActionMenuView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.ramotion.foldingcell.FoldingCell;
+import com.readystatesoftware.viewbadger.BadgeView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -97,15 +108,25 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> arr;
     private MaterialSearchView searchView;
     GridLayoutManager lLayout;
+    static RelativeLayout coordinatorLayout;
     TabLayout tabHost;
     private Resources res;
     boolean oncreate = false;
     RecyclerView recyclerView;
+    View cart,dashboard;
+    static String layoutmode = "GRID_LAYOUT";
+    static boolean isInternetConnected = false ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//--------------------connection manager--------------------------------
+        registerReceiver(
+                new ConnectivityChangeReceiver(),
+                new IntentFilter(
+                        ConnectivityManager.CONNECTIVITY_ACTION));
+
         recyclerView =(RecyclerView)findViewById(R.id.recycler_view);
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.adjustTintAlpha(0.8f);
@@ -113,10 +134,20 @@ public class MainActivity extends AppCompatActivity
         res = this.getResources();
         oncreate = true;
         tabHost = (TabLayout) this.findViewById(R.id.tabHost);
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        AppBarLayout.LayoutParams params2= new AppBarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                , ViewGroup.LayoutParams.WRAP_CONTENT);
+        params2.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 65, getResources().getDisplayMetrics());
+        tabHost.setLayoutParams(params2);
+        coordinatorLayout = (RelativeLayout)findViewById(R.id.snackbar_coordinator);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         tabHost.setSelectedTabIndicatorColor(Color.parseColor("#efefef"));
         tabHost.setTabTextColors(Color.parseColor("#5b839c"), Color.parseColor("#3baf79"));
         settab();
+
+        updateBadgeCount(tabHost.getTabAt(2).getCustomView(), 0);
+        updateBadgeCount(tabHost.getTabAt(3).getCustomView(),0);
+        updateBadgeCount(tabHost.getTabAt(4).getCustomView(),0);
 
         tabHost.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -168,7 +199,6 @@ public class MainActivity extends AppCompatActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             toolbar.setTitleTextColor(Color.GRAY);
-
 
 
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -258,7 +288,25 @@ public class MainActivity extends AppCompatActivity
        */
         }
 
+    public void checkNetwork(){
+        ConnectivityManager cm =
+                (ConnectivityManager)MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isInternetConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    public void updateBadgeCount(View view,int count){
+        BadgeView badge = new BadgeView(MainActivity.this, view);
+        badge.setText(""+count);
+        badge.setBadgeBackgroundColor(Color.parseColor("#dabb1f"));
+        //badge.setBackgroundColor(Color.parseColor("#4f9b62"));
+        badge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+        badge.setBadgeMargin(0);
+        badge.setTextSize(12);
+        badge.show();
+    }
 
     public void setUpWindow() {
 
@@ -270,7 +318,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        //moveTaskToBack(true);
+        //moveTaskToBack(true);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (searchView.isOpen()) searchView.closeSearch();
 
@@ -294,34 +343,52 @@ public class MainActivity extends AppCompatActivity
         //searchView.clearSuggestions();
     }
 
+    public LinearLayout customtabView(int drawableid,String labeltext){
+        ImageView tabicon = new ImageView(this);
+        TextView label = new TextView(this);
+        label.setText(labeltext);
+        label.setSingleLine();
+        label.setTypeface(null, Typeface.BOLD);
+        //tabicon.setPadding(0, 0, 0, 0);
+        label.setTextSize(10);
+        label.setTextColor(Color.parseColor("#5b839c"));
+        label.setGravity(Gravity.CENTER|Gravity.CENTER_VERTICAL);
+        //label.setPadding(0, 0, 0, 0);
+        tabicon.setImageResource(drawableid);
+        LinearLayout l = new LinearLayout(this);
+        l.setOrientation(LinearLayout.VERTICAL);
+        l.addView(tabicon, 0);
+        l.addView(label, 1);
+        //l.setPadding(0,10,0,10);
+        LinearLayout.LayoutParams params= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+        , ViewGroup.LayoutParams.WRAP_CONTENT);
+         l.setLayoutParams(params);
+        tabHost.setMinimumHeight(l.getHeight()+20);
+        return l;
+    }
+
     public void settab(){
         {
             Log.d("settab", "inside");
-
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(res.getDrawable(R.drawable.ic_home))
-                            .setText("Home")
+                            .setCustomView(customtabView(R.drawable.ic_home,"Home"))
             );
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(res.getDrawable(R.drawable.ic_add_item))
-                            .setText("PostAdd")
+                            .setCustomView(customtabView(R.drawable.ic_add_item, "Postadd"))
             );
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(res.getDrawable(R.drawable.ic_cart))
-                            .setText("Cart")
+                            .setCustomView(customtabView(R.drawable.ic_cart, "Cart"))
             );
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(res.getDrawable(R.drawable.ic_notification))
-                            .setText("Notifiction")
+                            .setCustomView(customtabView(R.drawable.ic_notification, "Notificati.."))
             );
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(res.getDrawable(R.drawable.ic_user))
-                            .setText("Dashboard")
+                            .setCustomView(customtabView(R.drawable.ic_user, "Dashboard"))
             );
         }
 
@@ -364,9 +431,11 @@ public class MainActivity extends AppCompatActivity
 
             if (!((Animatable) item.getIcon()).isRunning()) {
                 if (lLayout.getSpanCount() == 1) {
+                    layoutmode = "GRID_LAYOUT";
                     item.setIcon(AnimatedVectorDrawableCompat.create(MainActivity.this, R.drawable.avd_list_to_grid));
                     lLayout.setSpanCount(2);
                 } else {
+                    layoutmode = "LIST_LAYOUT";
                     item.setIcon(AnimatedVectorDrawableCompat.create(MainActivity.this, R.drawable.avd_grid_to_list));
                     lLayout.setSpanCount(1);
                 }

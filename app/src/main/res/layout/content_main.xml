@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_below="@+id/appbar"
+    android:layout_alignParentTop="true"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" tools:showIn="@layout/app_bar_main"
     tools:context=".MainActivity"
+    android:id="@+id/snackbar_coordinator"
    >
-
-    <Button
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:focusable="true" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -84,6 +77,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:background="#c6c6c6"
         android:layout_height="match_parent"
         android:windowSoftInputMode="stateHidden|adjustPan|adjustResize">
 
@@ -91,32 +85,25 @@
             android:id="@+id/myScrollingContent"
             android:layout_width="match_parent"
             android:background="#c6c6c6"
-            android:paddingTop="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:paddingBottom="10dp"
             android:layout_height="match_parent"
             android:fillViewport="true">
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_marginTop="4dp"
+                 android:layout_marginBottom="10dp"
 
-            <!-- Your loooooong scrolling content here. -->
-
+                 android:layout_height="wrap_content">
                   <android.support.v7.widget.RecyclerView
                       android:id="@+id/recycler_view"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:scrollbars="vertical" />
+             </RelativeLayout>
 
           </android.support.v4.widget.NestedScrollView>
-
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="bottom"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/bottom_tabs"
-            app:bb_behavior="shy|shifting"
-            app:bb_inActiveTabColor="#6aa3be"
-            app:bb_activeTabColor="#447bae"
-            android:isScrollContainer="false" />
-
 
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

@@ -66,6 +66,12 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">@color/accent</item>
+    </style>
+
     <style name="Theme.FloatingWindow.Popup" parent="@android:style/Theme.Holo.Light" >
 
         <item name="android:windowIsFloating">false</item>
@@ -84,6 +90,9 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">@color/accent</item>
         <item name="android:typeface">sans</item>
         <item name="android:textColor">@color/gray</item>
 

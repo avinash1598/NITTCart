@@ -8,7 +8,8 @@
     android:layout_marginRight="2dp"
     android:id="@+id/scroll"
     android:background="@drawable/cart_and_plceorder_back"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:clickable="false">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"

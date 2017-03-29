@@ -19,9 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/order_id_mock"
+            android:text="PRODUCT_ID"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:id="@+id/product_id" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -154,7 +155,7 @@
                 android:layout_marginBottom="2dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/content_avatar"
-                android:text="@string/client_name_mock"
+                android:text="NAME"
                 android:textColor="@color/mainTextColor"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -167,23 +168,13 @@
                 android:layout_below="@id/content_name_view"
                 android:src="@drawable/arrow" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/content_rating_stars"
-                android:layout_marginBottom="-2dp"
-                android:layout_marginStart="3dp"
-                android:layout_toEndOf="@id/content_rating_stars"
-                android:text="@string/rating_mock"
-                android:textColor="@color/contentBadgeTitle"
-                android:textSize="12sp" />
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/arrow" />
+                android:src="@drawable/arrow"
+                android:id="@+id/imageView2" />
 
         </RelativeLayout>
 

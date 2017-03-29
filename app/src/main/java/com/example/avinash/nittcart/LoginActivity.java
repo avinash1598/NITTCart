@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
                 loginview.setVisibility(View.VISIBLE);
                 loginview.startAnimation(animShow2);
                 //imageButton.setBackgroundResource(R.drawable.cart_and_plceorder_back);
-                imageButton.setImageResource(R.mipmap.adduser);
+                imageButton.setImageResource(R.drawable.ic_user);
 
                 //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -393,7 +393,7 @@ public class LoginActivity extends AppCompatActivity implements AnimatedFab {
             y = loginview.getTop();
 
             imageButton.setBackgroundResource(R.drawable.user_profile_image_background);
-            imageButton.setImageResource(R.mipmap.adduser);
+            imageButton.setImageResource(R.drawable.ic_newuser);
 
             Animator anim = ViewAnimationUtils.createCircularReveal(registerview, x/2, y/2+150, hypotenuse, 0);
             anim.setDuration(500);
